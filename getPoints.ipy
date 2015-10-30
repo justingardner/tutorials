@@ -1,0 +1,38 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+%matplotlib
+3*4
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(np.random.rand(10))
+
+#####################
+#    choosePoints   #
+#####################
+class choosePoints:
+    # class initializer
+    def __init__(self, plt):
+        self.plt = plt
+        self.x = list
+        self.y = list
+        self.cid = plt.figure.canvas.mpl_connect('button_press_event', self)
+    # button press callback
+    def __call__(self, event):
+        print 'click', event
+        if event.inaxes!=self.plt.axes: return
+        self.x.append(event.xdata)
+        self.y.append(event.ydata)
+        self.plt.plot(event.xdata,event.ydata,'ro')
+
+# setup figure
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.set_title('click to build line segments')
+
+# start line
+line, = ax.plot([0], [0])  # empty line
+choosePointsInstance = choosePoints(plt)
+
+plt.show()
