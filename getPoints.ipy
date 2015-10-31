@@ -1,38 +1,69 @@
-import matplotlib.pyplot as plt
+# getPoints.ipy
+#
+#      usage: getPoints.ipy
+#         by: justin gardner
+#       date: 10/30/15
+#    purpose: To get points that a user has clicked on for classification tutorial
+#
+
+##########
+# import #
+##########
+import matplotlib.pyplot as pyplot
 import numpy as np
 
+# start matplotlib
 %matplotlib
-3*4
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.plot(np.random.rand(10))
+# setup calback to choosePoints
+points = choosePoints(pyplot)
 
 #####################
 #    choosePoints   #
 #####################
 class choosePoints:
     # class initializer
-    def __init__(self, plt):
-        self.plt = plt
-        self.x = list
-        self.y = list
-        self.cid = plt.figure.canvas.mpl_connect('button_press_event', self)
+    def __init__(self, pyplot):
+        # keep pyplot
+        self.pyplot = pyplot
+        # setup figure
+        self.f = pyplot.figure()
+        self.a = self.f.add_subplot(111)
+        # set axis
+        pyplot.xlim(0,1)
+        pyplot.ylim(0,1)
+        self.a.set_title('Click points in first group then double-click.')
+        # initialize list of points
+        self.x1 = []
+        self.y1 = []
+        self.x2 = []
+        self.y2 = []
+        # variable to keep which list we are working on
+        self.listNum = 1
+        # set callback for button presses
+        self.cid = self.f.canvas.mpl_connect('button_press_event', self)
     # button press callback
     def __call__(self, event):
-        print 'click', event
-        if event.inaxes!=self.plt.axes: return
-        self.x.append(event.xdata)
-        self.y.append(event.ydata)
-        self.plt.plot(event.xdata,event.ydata,'ro')
+        if event.dblclick:
+            if self.listNum == 1:
+                self.listNum = 2
+            else:
+                self.pyplot.close()
+        else:
+            # check if event is on axis
+            if event.inaxes!=self.a: return
+            # log x, y corridnates
+            if self.listNum == 1:
+                # keep points in first list
+                self.x1.append(event.xdata)
+                self.y1.append(event.ydata)
+                # and plot them
+                self.pyplot.plot(event.xdata,event.ydata,'ro')
+            else:
+                # keep points in first list
+                self.x2.append(event.xdata)
+                self.y2.append(event.ydata)
+                # and plot them
+                self.pyplot.plot(event.xdata,event.ydata,'bo')
+            
 
-# setup figure
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.set_title('click to build line segments')
-
-# start line
-line, = ax.plot([0], [0])  # empty line
-choosePointsInstance = choosePoints(plt)
-
-plt.show()
