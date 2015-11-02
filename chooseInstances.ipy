@@ -1,0 +1,80 @@
+# chooseInstances.py
+#
+#      usage: chooseInstances.py
+#         by: justin gardner
+#       date: 10/30/15
+#    purpose: To get points that a user has clicked on for classification tutorial
+#
+
+##########
+# import #
+##########
+import matplotlib.pyplot as pyplot
+import numpy as np
+
+# start matplotlib
+%matplotlib
+
+########################
+#    chooseInstances   #
+########################
+class chooseInstances:
+    # class initializer
+    def __init__(self, pyplot):
+        # keep pyplot
+        self.pyplot = pyplot
+        # setup figure
+        self.f = pyplot.figure()
+        self.a = self.f.add_subplot(111)
+        pyplot.axis('off')
+        # set axis
+        pyplot.xlim(0,1)
+        pyplot.ylim(0,1)
+        self.a.set_title('Click points in first group then double-click.')
+        # initialize list of points
+        self.x1 = []
+        self.x2 = []
+        # variable to keep which list we are working on
+        self.listNum = 1
+        # set callback for button presses
+        self.cid = self.f.canvas.mpl_connect('button_press_event', self)
+    # button press callback
+    def __call__(self, event):
+        if event.dblclick:
+            if self.listNum == 1:
+                self.listNum = 2
+            else:
+                self.pyplot.close()
+                # convert to numpy arrays which
+                self.x1 = np.array(self.x1)
+                self.x2 = np.array(self.x2)
+        else:
+            # check if event is on axis
+            if event.inaxes!=self.a: return
+            # log x, y corridnates
+            if self.listNum == 1:
+                # keep points in first list
+                self.x1.append([event.xdata,event.ydata])
+                # and plot them
+                self.pyplot.plot(event.xdata,event.ydata,'ro')
+            else:
+                # keep points in first list
+                self.x2.append([event.xdata,event.ydata])
+                # and plot them
+                self.pyplot.plot(event.xdata,event.ydata,'bo')
+            
+
+# setup calback to chooseInstances
+instances = chooseInstances(pyplot)
+
+def dispInstances(instances):
+     # setup figure
+     f = pyplot.figure()
+     a = f.add_subplot(111)
+     pyplot.axis('off')
+     # set axis
+     pyplot.xlim(0,1)
+     pyplot.ylim(0,1)
+     pyplot.plot(instances.x1[:,0],instances.x1[:,1],'ro')
+     pyplot.plot(instances.x2[:,0],instances.x2[:,1],'bo')
+
