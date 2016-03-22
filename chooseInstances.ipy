@@ -1,6 +1,6 @@
-# getPoints.ipy
+# chooseInstances.py
 #
-#      usage: getPoints.ipy
+#      usage: chooseInstances.py
 #         by: justin gardner
 #       date: 10/30/15
 #    purpose: To get points that a user has clicked on for classification tutorial
@@ -15,10 +15,10 @@ import numpy as np
 # start matplotlib
 %matplotlib
 
-######################
-#    makeInstances   #
-######################
-class makeInstances:
+########################
+#    chooseInstances   #
+########################
+class chooseInstances:
     # class initializer
     def __init__(self, pyplot):
         # keep pyplot
@@ -64,8 +64,8 @@ class makeInstances:
                 self.pyplot.plot(event.xdata,event.ydata,'bo')
             
 
-# setup calback to makeInstances
-instances = makeInstances(pyplot)
+# setup calback to chooseInstances
+instances = chooseInstances(pyplot)
 
 def dispInstances(instances):
      # setup figure
