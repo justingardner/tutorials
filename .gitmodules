@@ -1,0 +1,9 @@
+[submodule "sdt"]
+	path = sdt
+	url = https://gist.github.com/39e43ac049fd26679bae.git
+[submodule "f8c118a956c549ecea7c"]
+	path = f8c118a956c549ecea7c
+	url = https://gist.github.com/mwaskom/f8c118a956c549ecea7c
+[submodule "diffusion"]
+	path = diffusion
+	url = https://gist.github.com/mwaskom/f8c118a956c549ecea7c
