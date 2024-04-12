@@ -15,3 +15,28 @@ def getMeshPoints(nPoints):
     # and return the computed values
     return x, y, extents
 
+# function that makes a gaussian
+def makeGaussian(x,y,sigma):
+    # there it is!
+    gaussian = np.exp(-(x**2+y**2)/(2*sigma**2))
+    
+    # return 
+    return gaussian
+
+# function to make a grating
+def makeGrating(x, y, orientation, spatialPhase, spatialFrequency):
+    # we wil convert orientation and spatialPhase into radians
+    orientation = np.pi*orientation/180
+    spatialPhase = np.pi*spatialPhase/180
+
+    # we need to convert spatial frequency into cycles/image
+    # remember that we made the extents in getMeshPoints
+    # to go from -1 to 1, so we want that to go from -pi to pi
+    spatialFrequency = spatialFrequency * np.pi
+
+    # make the grating
+    grating = np.cos(spatialFrequency*(x*np.cos(orientation)+y*np.sin(orientation))+spatialPhase)
+
+    # and return
+    return grating
+
